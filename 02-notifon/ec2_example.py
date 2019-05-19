@@ -16,7 +16,23 @@ os.chmod(key_path, stat.S_IRUSR | stat.S_IWUSR)
 ami_name = 'amzn2-ami-hvm-2.0.20190508-x86_64-gp2'
 filters = [{'Name': 'name', 'Values': [ami_name]}]
 img = ec2.Image(id='ami-0009a33f033d8b7b6')
-instances = ec2.create_instances(ImageId=img.id, MinCount=1, MaxCount=1, InstanceType='t2.micro', KeyName=key.key_name)
+instances = ec2.create_instances(ImageId=img.id, MinCount=1, MaxCount=1, InstanceType='t2.micro', KeyName=key.key_name , 
+TagSpecifications=[
+    {
+      'ResourceType': 'instance',
+      'Tags': [
+        {
+          'Key': 'Name',
+          'Value': 'test'
+        },
+        {
+          'Key': 'owner',
+          'Value': 'Sean Rigby'
+        },
+      ]
+    },
+  ]
+)
 inst = instances[0]
 sg = ec2.SecurityGroup(inst.security_groups[0]['GroupId'])
 sg.authorize_ingress(IpPermissions=[{'FromPort': 22, 'ToPort': 22, 'IpProtocol': 'TCP', 'IpRanges': [{'CidrIp': '90.211.148.217/32'}]}])
