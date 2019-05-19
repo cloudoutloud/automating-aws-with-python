@@ -21,5 +21,5 @@ inst = instances[0]
 sg = ec2.SecurityGroup(inst.security_groups[0]['GroupId'])
 sg.authorize_ingress(IpPermissions=[{'FromPort': 22, 'ToPort': 22, 'IpProtocol': 'TCP', 'IpRanges': [{'CidrIp': '90.211.148.217/32'}]}])
 sg.authorize_ingress(IpPermissions=[{'FromPort': 80, 'ToPort': 80, 'IpProtocol': 'TCP', 'IpRanges': [{'CidrIp': '0.0.0.0/0'}]}])
-print("All done!")
+print("All resources created")
 
