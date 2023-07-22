@@ -25,4 +25,15 @@ using Cloudwatch events.
 
 Notifon currently has the following features:
 
-- 
+
+## 02-ec2-volumes
+
+ec2-volumes is a project to find and remove unattached ec2 EBS volumes.
+
+### Features
+
+ec2-volumes currently has the following features:
+
+- Get attached volumes and return volume ID and type
+- Get unattached volumes and return volume ID and type
+- Option to delete unattached volumes
