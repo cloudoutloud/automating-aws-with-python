@@ -27,6 +27,16 @@ def get_attached_volumes(ec2_client):
             attached_volumes.append(volume)
     return attached_volumes
 
+def detach_attached_volumes(ec2_client):
+    volumes_response = ec2_client.describe_volumes()
+    for volume in volumes_response['Volumes']:
+        if volume['Attachments']:
+            try:
+                print(f"Detaching attached volume...  {volume['VolumeId']}")
+                ec2_client.detach_volume(VolumeId=volume['VolumeId'])
+            except botocore.exceptions.ClientError as error:
+                raise error
+
 def main():
     # Getting current AWS account id from assumed in profile
     boto3.client('sts').get_caller_identity().get('Account')
@@ -39,6 +49,17 @@ def main():
         print("Attached Volumes:")
         for volume in attached_volumes:
             print(f"Volume ID: {volume['VolumeId']} " + f"Volume Type: {volume['VolumeType']}")
+            while True:
+                user_input = input("Do you want to detach the attached volumes" + " (yes/no): ").strip().lower()
+                if user_input == 'yes' or user_input == 'y':
+                    detach_attached_volumes(ec2_client)
+                    return True
+                elif user_input == 'no' or user_input == 'n':
+                    print("Cancelling...")
+                    return False
+                else:
+                    print("Invalid input. Please enter 'yes' or 'no' cancelling...")
+                    break
     else:
         print("No attached volumes found in account.")
 

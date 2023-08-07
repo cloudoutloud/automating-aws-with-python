@@ -37,3 +37,4 @@ ec2-volumes currently has the following features:
 - Get attached volumes and return volume ID and type
 - Get unattached volumes and return volume ID and type
 - Option to delete unattached volumes
+- Option to detach attached volumes
